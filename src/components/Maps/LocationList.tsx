@@ -1,5 +1,6 @@
 'use client';
 
+import { MapPin, Phone, Mail, Navigation, Copy } from 'lucide-react';
 import { ILocation } from '@/models/Location';
 
 interface LocationListProps {
@@ -64,16 +65,20 @@ export default function LocationList({ locations, onLocationSelect }: LocationLi
             <p className="text-gray-600 text-sm mb-2">{location.description}</p>
           )}
           
-          <p className="text-gray-500 text-sm mb-3">
-            📍 {location.address}
+          <p className="text-gray-500 text-sm mb-3 flex items-center">
+            <MapPin className="w-4 h-4 mr-2" /> {location.address}
           </p>
           
           <div className="flex flex-wrap gap-2 text-xs text-gray-500">
             {location.phone && (
-              <span>📞 {location.phone}</span>
+              <span className="flex items-center">
+                <Phone className="w-3 h-3 mr-1" /> {location.phone}
+              </span>
             )}
             {location.email && (
-              <span>✉️ {location.email}</span>
+              <span className="flex items-center">
+                <Mail className="w-3 h-3 mr-1" /> {location.email}
+              </span>
             )}
           </div>
           
@@ -83,9 +88,9 @@ export default function LocationList({ locations, onLocationSelect }: LocationLi
                 e.stopPropagation();
                 handleNavigateToGoogleMaps(location);
               }}
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
             >
-              🗺️ Navigasi
+              <Navigation className="w-4 h-4 mr-2" /> Navigasi
             </button>
             <button
               onClick={(e) => {
@@ -93,9 +98,9 @@ export default function LocationList({ locations, onLocationSelect }: LocationLi
                 navigator.clipboard.writeText(`${location.latitude}, ${location.longitude}`);
                 // Bisa tambahkan toast notification di sini
               }}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center"
             >
-              📋 Copy Koordinat
+              <Copy className="w-4 h-4 mr-2" /> Copy Koordinat
             </button>
           </div>
         </div>

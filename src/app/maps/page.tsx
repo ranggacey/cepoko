@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MapPin, List, Map } from 'lucide-react';
+import { MapPin, List, Map, Lightbulb } from 'lucide-react';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import ClientMapComponent from '@/components/Maps/ClientMapComponent';
@@ -80,23 +80,23 @@ export default function MapsPage() {
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('map')}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center ${
                     viewMode === 'map'
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
-                  🗺️ Peta
+                  <Map className="w-4 h-4 mr-2" /> Peta
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center ${
                     viewMode === 'list'
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
-                  📋 Daftar
+                  <List className="w-4 h-4 mr-2" /> Daftar
                 </button>
               </div>
             </div>
@@ -162,7 +162,9 @@ export default function MapsPage() {
 
         {/* Info Section */}
         <div className="mt-8 bg-blue-50 rounded-lg p-6">
-          <h3 className="font-semibold text-blue-900 mb-2">💡 Tips Penggunaan</h3>
+          <h3 className="font-semibold text-blue-900 mb-2 flex items-center">
+            <Lightbulb className="w-5 h-5 mr-2" /> Tips Penggunaan
+          </h3>
           <ul className="text-blue-800 text-sm space-y-1">
             <li>• Klik marker di peta untuk melihat informasi detail lokasi</li>
             <li>• Gunakan tombol "Navigasi" untuk membuka Google Maps</li>

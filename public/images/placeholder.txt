@@ -1,0 +1,15 @@
+# Placeholder untuk gambar Desa Cepoko
+
+Silakan upload gambar-gambar Desa Cepoko dengan nama:
+- desa-cepoko-1.jpg
+- desa-cepoko-2.jpg  
+- desa-cepoko-3.jpg
+- desa-cepoko-4.jpg
+- desa-cepoko-5.jpg
+
+Format yang disarankan:
+- JPG atau PNG
+- Ukuran: 800x600px (rasio 4:3)
+- Ukuran file: maksimal 2MB per gambar
+
+Gambar akan otomatis muncul di slider homepage.

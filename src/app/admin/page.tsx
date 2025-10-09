@@ -245,6 +245,41 @@ export default function AdminDashboard() {
             </div>
           </div>
 
+          {/* Homepage Slider Management */}
+          <div className="bg-white rounded-lg shadow">
+            <div className="p-6 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Kelola Slider Homepage</h3>
+                <Link
+                  href="/admin/homepage-slider"
+                  className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Kelola Slider
+                </Link>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-gray-600 mb-4">
+                Upload dan kelola gambar-gambar untuk slider homepage
+              </p>
+              <div className="flex space-x-3">
+                <Link
+                  href="/admin/homepage-slider"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Kelola Slider
+                </Link>
+                <Link
+                  href="/"
+                  target="_blank"
+                  className="bg-green-100 hover:bg-green-200 text-green-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Preview Homepage
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Locations Management */}
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b border-gray-200">

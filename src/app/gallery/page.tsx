@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Camera, Search, Filter, ExternalLink } from 'lucide-react';
+import { Camera, Search, Filter, ExternalLink, AlertTriangle } from 'lucide-react';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -99,7 +99,9 @@ export default function GalleryPage() {
         <Navbar />
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+            <div className="text-red-500 mb-4">
+              <AlertTriangle className="w-16 h-16 mx-auto" />
+            </div>
             <h2 className="text-xl font-semibold text-black mb-2">Terjadi Kesalahan</h2>
             <p className="text-black mb-4">{error}</p>
             <button 
@@ -203,7 +205,7 @@ export default function GalleryPage() {
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                          <span className="text-gray-500 text-4xl">📸</span>
+                                 <Camera className="w-12 h-12 text-gray-400 mx-auto" />
                         </div>
                       )}
                     </div>

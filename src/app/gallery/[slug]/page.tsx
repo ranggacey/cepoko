@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
+import Navbar from '@/components/Layout/Navbar';
+import Footer from '@/components/Layout/Footer';
 import connectDB from '@/lib/mongodb';
 import Gallery from '@/models/Gallery';
 
@@ -122,37 +124,15 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">C</span>
-                </div>
-                <span className="font-bold text-xl text-gray-900">Desa Cepoko</span>
-              </Link>
-            </div>
-            
-            <div className="flex items-center space-x-6">
-              <Link href="/" className="text-black hover:text-green-600 transition-colors">Beranda</Link>
-              <Link href="/gallery" className="text-green-600 font-medium">Galeri</Link>
-              <Link href="/maps" className="text-black hover:text-green-600 transition-colors">Peta Lokasi</Link>
-              <Link href="/articles" className="text-black hover:text-green-600 transition-colors">Artikel</Link>
-              <Link href="/contact" className="text-black hover:text-green-600 transition-colors">Kontak</Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <Navbar />
+      
       {/* Breadcrumb */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center space-x-2 text-sm">
-            <Link href="/" className="text-gray-500 hover:text-green-600">Beranda</Link>
+            <Link href="/" className="text-gray-500 hover:text-gray-700">Beranda</Link>
             <span className="text-gray-400">/</span>
-            <Link href="/gallery" className="text-gray-500 hover:text-green-600">Galeri</Link>
+            <Link href="/gallery" className="text-gray-500 hover:text-gray-700">Galeri</Link>
             <span className="text-gray-400">/</span>
             <span className="text-gray-900">{gallery.title}</span>
           </div>
@@ -165,7 +145,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
         <div className="mb-6">
           <Link 
             href="/gallery" 
-            className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors"
+            className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Kembali ke Galeri
@@ -264,6 +244,8 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
           </div>
         )}
       </div>
+      
+      <Footer />
     </div>
   );
 }

@@ -129,7 +129,7 @@ export default function ArticlesPage() {
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
-                      <span className="text-white text-4xl">📰</span>
+                      <Newspaper className="w-16 h-16 text-white" />
                     </div>
                   )}
                 </div>
@@ -172,8 +172,12 @@ export default function ArticlesPage() {
                   {/* Meta Info */}
                   <div className="flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center space-x-4">
-                      <span>📅 {formatDate(article.createdAt)}</span>
-                      <span>👁️ {article.views} views</span>
+                      <span className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-1" /> {formatDate(article.createdAt)}
+                      </span>
+                      <span className="flex items-center">
+                        <Eye className="w-4 h-4 mr-1" /> {article.views} views
+                      </span>
                     </div>
                     <Link
                       href={`/articles/${article.slug}`}

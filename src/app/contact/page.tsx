@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, Phone, MapPin, Building, Camera, Newspaper } from 'lucide-react';
+import { Mail, Phone, MapPin, Building, Camera, Newspaper, MessageCircle } from 'lucide-react';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 
@@ -35,7 +35,7 @@ export default function ContactPage() {
                 <div className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                   <div className="flex items-start space-x-4">
                     <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-green-600 text-xl">💬</span>
+                      <MessageCircle className="w-6 h-6 text-green-600" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-black mb-2">WhatsApp Desa Cepoko</h3>
@@ -79,8 +79,8 @@ export default function ContactPage() {
                         <span className="text-sm text-gray-500">
                           Jam kerja: Senin-Jumat 08:00-16:00
                         </span>
-                      </div>
-                    </div>
+                  </div>
+                </div>
                   </div>
                 </div>
 
@@ -89,7 +89,7 @@ export default function ContactPage() {
                   <div className="flex items-start space-x-4">
                     <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Mail className="w-6 h-6 text-purple-600" />
-                    </div>
+                  </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-black mb-2">Email Resmi</h3>
                       <p className="text-gray-600 mb-4">
@@ -105,7 +105,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </div>
-              </div>
+                    </div>
             </div>
           </div>
 

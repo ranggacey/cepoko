@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Camera, MapPin, Newspaper, Building2, Users, TrendingUp, Calendar } from 'lucide-react';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
+import Hero from '@/components/Hero';
 import ImageSlider from '@/components/ImageSlider';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -38,33 +39,7 @@ export default async function Home() {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
       
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-green-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Selamat Datang di Desa Cepoko
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-green-100">
-              Desa yang indah di Gunungpati, Semarang
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/gallery"
-                className="bg-white text-green-600 hover:bg-green-50 px-8 py-3 rounded-lg font-semibold transition-colors"
-              >
-                Lihat Galeri
-              </Link>
-              <Link
-                href="/maps"
-                className="border-2 border-white text-white hover:bg-white hover:text-green-600 px-8 py-3 rounded-lg font-semibold transition-colors"
-              >
-                Peta Lokasi
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Hero />
 
       {/* Stats Section */}
       <section className="bg-white py-16">

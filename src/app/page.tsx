@@ -1,103 +1,149 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Camera, MapPin, Newspaper, Building2 } from 'lucide-react';
+import Navbar from '@/components/Layout/Navbar';
+import Footer from '@/components/Layout/Footer';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+      
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-green-600 to-green-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Selamat Datang di Desa Cepoko
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-green-100">
+              Desa yang indah di Gunungpati, Semarang
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/gallery"
+                className="bg-white text-green-600 hover:bg-green-50 px-8 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Lihat Galeri
+              </Link>
+              <Link
+                href="/maps"
+                className="border-2 border-white text-white hover:bg-white hover:text-green-600 px-8 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Peta Lokasi
+              </Link>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
+              Informasi Desa Cepoko
+            </h2>
+            <p className="text-xl text-black">
+              Temukan semua yang Anda butuhkan tentang Desa Cepoko
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Gallery Card */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Camera className="w-8 h-8 text-blue-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Galeri Foto</h3>
+              <p className="text-black mb-6">
+                Lihat koleksi foto-foto indah Desa Cepoko, mulai dari pemandangan alam hingga kegiatan warga.
+              </p>
+              <Link
+                href="/gallery"
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block"
+              >
+                Lihat Galeri
+              </Link>
+            </div>
+
+            {/* Maps Card */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <MapPin className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Peta Lokasi</h3>
+              <p className="text-black mb-6">
+                Temukan lokasi RW, RT, fasilitas umum, dan tempat penting di Desa Cepoko dengan mudah.
+              </p>
+              <Link
+                href="/maps"
+                className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block"
+              >
+                Lihat Peta
+              </Link>
+            </div>
+
+            {/* Articles Card */}
+            <div className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Newspaper className="w-8 h-8 text-purple-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-black mb-4">Artikel & Berita</h3>
+              <p className="text-black mb-6">
+                Baca artikel dan berita terbaru tentang perkembangan dan kegiatan di Desa Cepoko.
+              </p>
+              <Link
+                href="/articles"
+                className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block"
+              >
+                Baca Artikel
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="bg-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-black mb-6">
+                Tentang Desa Cepoko
+              </h2>
+              <p className="text-lg text-black mb-6">
+                Desa Cepoko adalah sebuah desa yang terletak di Kecamatan Gunungpati, 
+                Kota Semarang. Desa ini dikenal dengan keindahan alamnya dan keramahan warganya.
+              </p>
+              <p className="text-lg text-black mb-8">
+                Website ini dibuat untuk memberikan informasi lengkap tentang Desa Cepoko, 
+                mulai dari galeri foto, peta lokasi, hingga artikel terkini tentang perkembangan desa.
+              </p>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600 mb-2">50+</div>
+                  <div className="text-black">RW & RT</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600 mb-2">1000+</div>
+                  <div className="text-black">Warga</div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-200 rounded-xl h-96 flex items-center justify-center">
+              <div className="text-center">
+                <Building2 className="w-16 h-16 text-gray-500 mx-auto mb-2" />
+                <span className="text-black text-lg">Foto Desa Cepoko</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        <Footer />
+      </div>
+    </ErrorBoundary>
   );
 }

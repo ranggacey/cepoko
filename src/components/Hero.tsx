@@ -66,7 +66,7 @@ export default function Hero() {
           >
             <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
               <Image
-                src="/images/desa-cepoko-1.jpg"
+                src="/images/1.jpg"
                 alt="Panorama Desa Cepoko"
                 fill
                 priority

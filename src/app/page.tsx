@@ -5,6 +5,7 @@ import Footer from '@/components/Layout/Footer';
 import Hero from '@/components/Hero';
 import ImageSlider from '@/components/ImageSlider';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { Button } from '@/components/ui/button';
 
 // Fetch homepage slider images from database
 async function getHomepageSliderImages() {
@@ -92,12 +93,11 @@ export default async function Home() {
               <p className="text-black mb-6">
                 Lihat koleksi foto-foto indah Desa Cepoko, mulai dari pemandangan alam hingga kegiatan warga.
               </p>
-              <Link
-                href="/gallery"
-                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block"
-              >
-                Lihat Galeri
-              </Link>
+              <Button variant="secondary" asChild>
+                <Link href="/gallery">
+                  Lihat Galeri
+                </Link>
+              </Button>
             </div>
 
             {/* Maps Card */}
@@ -109,12 +109,11 @@ export default async function Home() {
               <p className="text-black mb-6">
                 Temukan lokasi RW, RT, fasilitas umum, dan tempat penting di Desa Cepoko dengan mudah.
               </p>
-              <Link
-                href="/maps"
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block"
-              >
-                Lihat Peta
-              </Link>
+              <Button variant="default" asChild>
+                <Link href="/maps">
+                  Lihat Peta
+                </Link>
+              </Button>
             </div>
 
             {/* Articles Card */}
@@ -126,12 +125,11 @@ export default async function Home() {
               <p className="text-black mb-6">
                 Baca artikel dan berita terbaru tentang perkembangan dan kegiatan di Desa Cepoko.
               </p>
-              <Link
-                href="/articles"
-                className="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-block"
-              >
-                Baca Artikel
-              </Link>
+              <Button variant="purple" asChild>
+                <Link href="/articles">
+                  Baca Artikel
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -259,33 +257,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Contact CTA Section */}
-      <section className="bg-green-600 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Butuh Informasi Lebih Lanjut?
-          </h2>
-          <p className="text-xl mb-8 text-green-100">
-            Hubungi kami untuk pertanyaan atau informasi tentang Desa Cepoko
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="bg-white text-green-600 hover:bg-green-50 px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Hubungi Kami
-            </Link>
-            <Link
-              href="https://wa.me/6281234567890"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-2 border-white text-white hover:bg-white hover:text-green-600 px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              WhatsApp
-            </Link>
-          </div>
-        </div>
-      </section>
 
         <Footer />
       </div>

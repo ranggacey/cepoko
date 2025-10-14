@@ -9,7 +9,8 @@ export type ButtonVariant =
   | 'ghost'
   | 'link'
   | 'destructive'
-  | 'outline';
+  | 'outline'
+  | 'purple';
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -23,16 +24,18 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   default:
-    'bg-green-600 text-white hover:bg-green-700 focus-visible:ring-green-600',
+    'bg-green-300 text-white hover:bg-green-300 focus-visible:ring-green-300',
   secondary:
-    'bg-gray-100 text-gray-900 hover:bg-gray-200 focus-visible:ring-gray-400',
+    'bg-green-300 text-white hover:bg-green-300 focus-visible:ring-green-300',
   ghost:
-    'bg-transparent text-gray-900 hover:bg-gray-100 focus-visible:ring-gray-300',
-  link: 'bg-transparent text-green-700 hover:underline',
+    'bg-transparent text-white hover:bg-white/10 focus-visible:ring-green-300',
+  link: 'bg-transparent text-white hover:underline',
   destructive:
-    'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600',
+    'bg-red text-white hover:bg-red focus-visible:ring-red',
   outline:
-    'border border-gray-300 bg-white text-gray-900 hover:bg-gray-50 focus-visible:ring-gray-400',
+    'border border-green-300 bg-green-300 text-white hover:bg-green-300 focus-visible:ring-green-300',
+  purple:
+    'bg-green-300 text-white hover:bg-green-300 focus-visible:ring-green-300',
 };
 
 const sizes = {
@@ -43,11 +46,21 @@ const sizes = {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'default', size = 'md', ...props }, ref) => {
+  ({ className, variant = 'default', size = 'md', asChild = false, ...props }, ref) => {
+    if (asChild) {
+      const child = props.children as React.ReactElement<any>;
+      return React.cloneElement(child, {
+        className: cn(base, variants[variant], sizes[size], className),
+        style: { color: 'white !important', ...(child.props as any)?.style },
+        ref,
+      });
+    }
+
     return (
       <button
         ref={ref}
         className={cn(base, variants[variant], sizes[size], className)}
+        style={{ color: 'white !important', ...props.style }}
         {...props}
       />
     );

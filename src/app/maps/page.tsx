@@ -15,7 +15,7 @@ export default function MapsPage() {
   const [filteredLocations, setFilteredLocations] = useState<ILocation[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLocation, setSelectedLocation] = useState<ILocation | null>(null);
-  const [viewMode, setViewMode] = useState<'map' | 'list'>('map');
+  const [viewMode, setViewMode] = useState<'map' | 'list'>('list');
 
   useEffect(() => {
     fetchLocations();

@@ -100,27 +100,107 @@ export default function MapComponent({
             icon={getMarkerIcon(location.type)}
           >
             <Popup className="custom-popup">
-              <div className="p-2 min-w-[200px]">
-                <h3 className="font-bold text-lg mb-2">{location.name}</h3>
-                <p className="text-sm text-gray-600 mb-2">{location.description}</p>
-                <p className="text-xs text-gray-500 mb-3">{location.address}</p>
-                
-                {location.phone && (
-                  <p className="text-xs mb-1">
-                    <span className="font-semibold">Telp:</span> {location.phone}
-                  </p>
-                )}
-                
-                <div className="flex gap-2 mt-3">
-                  <button
-                    onClick={() => handleNavigateToGoogleMaps(location)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
-                  >
-                    Navigasi
-                  </button>
-                  <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
-                    {location.type.toUpperCase()}
-                  </span>
+              <div className="p-0 min-w-[240px] max-w-[260px]">
+                {/* Header dengan gambar */}
+                <div className="relative">
+                  {location.imageUrl ? (
+                    <div className="h-20 w-full bg-gray-100 rounded-t-lg overflow-hidden">
+                      <img 
+                        src={location.imageUrl} 
+                        alt={location.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                          (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                        }}
+                      />
+                      <div className="hidden w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                        <div className="text-white text-center">
+                          <div className="text-lg font-bold">{location.name.charAt(0)}</div>
+                          <div className="text-xs opacity-90">{location.type.toUpperCase()}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="h-20 w-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center rounded-t-lg">
+                      <div className="text-white text-center">
+                        <div className="text-lg font-bold">{location.name.charAt(0)}</div>
+                        <div className="text-xs opacity-90">{location.type.toUpperCase()}</div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Badge type */}
+                  <div className="absolute top-1 right-1">
+                    <span className={`px-1 py-0.5 rounded-full text-xs font-medium text-white shadow-sm ${
+                      location.type === 'kelurahan' ? 'bg-orange-500' :
+                      location.type === 'rw' ? 'bg-blue-500' :
+                      location.type === 'rt' ? 'bg-green-500' :
+                      location.type === 'fasilitas' ? 'bg-red-500' :
+                      location.type === 'wisata' ? 'bg-purple-500' :
+                      'bg-gray-500'
+                    }`}>
+                      {location.type.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-2.5">
+                  <h3 className="font-bold text-sm mb-1 text-gray-900">{location.name}</h3>
+                  
+                  {location.description && (
+                    <p className="text-xs text-gray-600 mb-1.5 line-clamp-2 leading-relaxed">{location.description}</p>
+                  )}
+                  
+                  <div className="space-y-1 mb-2">
+                    <div className="flex items-start">
+                      <div className="w-3 h-3 mt-0.5 mr-1.5 flex-shrink-0">
+                        <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <p className="text-xs text-gray-500 leading-relaxed">{location.address}</p>
+                    </div>
+                    
+                    {location.phone && (
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 mt-0.5 mr-1.5 flex-shrink-0">
+                          <svg className="w-3 h-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                          </svg>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          <span className="font-medium">Telp:</span> {location.phone}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Action buttons */}
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => handleNavigateToGoogleMaps(location)}
+                      className="flex-1 bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs font-medium transition-colors flex items-center justify-center"
+                    >
+                      <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Navigasi
+                    </button>
+                    
+                    {location.website && (
+                      <button
+                        onClick={() => window.open(location.website, '_blank')}
+                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs font-medium transition-colors"
+                      >
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </Popup>

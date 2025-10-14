@@ -81,3 +81,10 @@ a { @apply text-green-700 hover:text-green-800 underline-offset-2 hover:underlin
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

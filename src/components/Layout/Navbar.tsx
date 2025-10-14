@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { Menu, X, Settings, LogOut } from 'lucide-react';
@@ -36,10 +37,14 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
-            <span className="font-bold text-xl text-gray-900">Desa Cepoko</span>
+            <Image
+              src="/images/logo.jpg"
+              alt="Desa Cepoko Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
+            <span className="font-bold text-xl text-gray-900">Kelurahan Cepoko</span>
           </Link>
 
           {/* Navigation Links */}
@@ -77,7 +82,7 @@ export default function Navbar() {
                 </Link>
                 <button
                   onClick={() => signOut()}
-                  className="text-gray-900 hover:text-gray-700 text-sm font-medium transition-colors"
+                  className="text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
                 >
                   <LogOut className="h-4 w-4 inline-block mr-1" /> Logout
                 </button>
@@ -150,7 +155,7 @@ export default function Navbar() {
                     closeMobileMenu();
                     signOut();
                   }}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-900 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-green-600 hover:text-green-700 hover:bg-green-50 transition-colors"
                 >
                   <LogOut className="h-4 w-4 inline-block mr-2" /> Logout
                 </button>

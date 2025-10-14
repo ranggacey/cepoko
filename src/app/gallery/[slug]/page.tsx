@@ -21,9 +21,10 @@ async function getGallery(slug: string): Promise<any | null> {
       .populate('uploadedBy', 'name email')
       .lean();
     
-    // If not found by slug, try by ID (fallback for old galleries)
-    if (!gallery) {
-      gallery = await Gallery.findById(slug)
+    // If not found by slug, try by ID (fallback for old galleries without slug)
+    if (!gallery && slug.match(/^[0-9a-fA-F]{24}$/)) {
+      // Valid MongoDB ObjectId format
+      gallery = await Gallery.findOne({ _id: slug, published: true })
         .populate('uploadedBy', 'name email')
         .lean();
     }
@@ -38,11 +39,21 @@ async function getGallery(slug: string): Promise<any | null> {
 async function getRelatedGalleries(currentSlug: string, category: string, limit: number = 4): Promise<any[]> {
   try {
     await connectDB();
-    const galleries = await Gallery.find({
-      slug: { $ne: currentSlug },
+    
+    // Build query to exclude current gallery (by slug or ID)
+    const query: any = {
       category,
       published: true
-    })
+    };
+    
+    // Exclude current gallery by both slug and ID
+    if (currentSlug.match(/^[0-9a-fA-F]{24}$/)) {
+      query._id = { $ne: currentSlug };
+    } else {
+      query.slug = { $ne: currentSlug };
+    }
+    
+    const galleries = await Gallery.find(query)
       .populate('uploadedBy', 'name')
       .sort({ createdAt: -1 })
       .limit(limit)

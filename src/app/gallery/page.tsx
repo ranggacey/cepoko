@@ -260,7 +260,7 @@ export default function GalleryPage() {
                   
                   {/* View More Button */}
                   <Link 
-                    href={`/gallery/${gallery.slug || gallery._id?.toString() || index}`}
+                    href={`/gallery/${gallery.slug || (gallery as any)._id?.toString()}`}
                     className="inline-flex items-center text-sm text-green-600 hover:text-green-700 transition-colors"
                   >
                     <span>Lihat Selengkapnya</span>

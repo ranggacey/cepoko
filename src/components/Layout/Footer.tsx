@@ -32,25 +32,25 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Menu Utama</h3>
+            <h3 className="font-semibold text-lg mb-4 text-white">Menu Utama</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-white hover:text-green-400 transition-colors no-underline" style={{color: 'white !important'}}>
+                <Link href="/" className="text-green-400 hover:text-green-300 transition-colors no-underline">
                   Beranda
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="text-white hover:text-green-400 transition-colors no-underline" style={{color: 'white !important'}}>
+                <Link href="/gallery" className="text-green-400 hover:text-green-300 transition-colors no-underline">
                   Galeri Foto
                 </Link>
               </li>
               <li>
-                <Link href="/maps" className="text-white hover:text-green-400 transition-colors no-underline" style={{color: 'white !important'}}>
+                <Link href="/maps" className="text-green-400 hover:text-green-300 transition-colors no-underline">
                   Peta Lokasi
                 </Link>
               </li>
               <li>
-                <Link href="/articles" className="text-white hover:text-green-400 transition-colors no-underline" style={{color: 'white !important'}}>
+                <Link href="/articles" className="text-green-400 hover:text-green-300 transition-colors no-underline">
                   Artikel
                 </Link>
               </li>

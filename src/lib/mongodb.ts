@@ -1,18 +1,29 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI!;
+// Get MONGODB_URI from environment variable
+const MONGODB_URI = process.env.MONGODB_URI || '';
 
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env');
+// Create a type-safe global cache
+declare global {
+  var mongoose: {
+    conn: typeof mongoose | null;
+    promise: Promise<typeof mongoose> | null;
+  };
 }
 
-let cached = (global as any).mongoose;
+let cached = global.mongoose;
 
 if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
 async function connectDB() {
+  // Only check for MONGODB_URI when actually trying to connect
+  // This prevents errors during build time
+  if (!MONGODB_URI) {
+    throw new Error('Please define the MONGODB_URI environment variable in .env file');
+  }
+
   if (cached.conn) {
     return cached.conn;
   }

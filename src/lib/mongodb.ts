@@ -5,10 +5,7 @@ const MONGODB_URI = process.env.MONGODB_URI || '';
 
 // Create a type-safe global cache
 declare global {
-  var mongoose: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  };
+  var mongoose: any;
 }
 
 let cached = global.mongoose;

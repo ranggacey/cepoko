@@ -67,7 +67,7 @@ export async function POST() {
         results.push({
           id: gallery._id,
           title: gallery.title,
-          error: error.message
+          error: error instanceof Error ? error.message : String(error)
         });
       }
     }

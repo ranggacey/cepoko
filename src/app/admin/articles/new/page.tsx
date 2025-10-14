@@ -129,7 +129,7 @@ export default function NewArticlePage() {
                   required
                   value={formData.title}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
                   placeholder="Masukkan judul artikel"
                 />
               </div>
@@ -144,7 +144,7 @@ export default function NewArticlePage() {
                   rows={3}
                   value={formData.excerpt}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none text-black"
                   placeholder="Ringkasan singkat artikel (opsional)"
                 />
               </div>
@@ -166,10 +166,10 @@ export default function NewArticlePage() {
                   name="tags"
                   value={formData.tags}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-black"
                   placeholder="desa, kegiatan, berita (pisahkan dengan koma)"
                 />
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-black mt-1">
                   Pisahkan setiap tag dengan koma
                 </p>
               </div>
@@ -205,10 +205,10 @@ export default function NewArticlePage() {
                 rows={20}
                 value={formData.content}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none font-mono text-sm"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none font-mono text-sm text-black"
                 placeholder="Tuliskan konten artikel di sini..."
               />
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-black mt-2">
                 Anda bisa menggunakan HTML tags untuk formatting: &lt;h1&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, dll.
               </p>
             </div>

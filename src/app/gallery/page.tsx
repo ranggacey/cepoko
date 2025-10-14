@@ -233,7 +233,7 @@ export default function GalleryPage() {
                   {/* Tags */}
                   {gallery.tags && gallery.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-3">
-                      {gallery.tags.slice(0, 3).map((tag, index) => (
+                      {gallery.tags.slice(0, 3).map((tag: string, index: number) => (
                         <span
                           key={index}
                           className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded"

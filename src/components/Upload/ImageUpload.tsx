@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Camera, Upload, X } from 'lucide-react';
 
 interface ImageUploadProps {
@@ -19,6 +19,11 @@ export default function ImageUpload({
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState<string | null>(currentImage || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Update preview when currentImage changes
+  useEffect(() => {
+    setPreview(currentImage || null);
+  }, [currentImage]);
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -39,27 +44,39 @@ export default function ImageUpload({
     setUploading(true);
 
     try {
+      console.log('Starting upload for file:', file.name, 'size:', file.size);
+      
       const formData = new FormData();
       formData.append('image', file);
 
+      console.log('Sending request to /api/upload');
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
 
+      console.log('Response status:', response.status);
       const result = await response.json();
+      console.log('Response data:', result);
 
       if (result.success) {
+        console.log('Upload successful, URL:', result.url);
         setPreview(result.url);
         onImageUpload(result.url);
       } else {
-        alert(result.error || 'Gagal mengupload gambar');
+        console.error('Upload failed:', result);
+        const errorMessage = result.details || result.error || 'Gagal mengupload gambar';
+        alert(`Error: ${errorMessage}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Upload error:', error);
-      alert('Terjadi kesalahan saat mengupload gambar');
+      alert(`Terjadi kesalahan saat mengupload gambar: ${error.message || 'Unknown error'}`);
     } finally {
       setUploading(false);
+      // Reset file input
+      if (event.target) {
+        event.target.value = '';
+      }
     }
   };
 

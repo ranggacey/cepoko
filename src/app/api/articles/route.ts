@@ -2,6 +2,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Article from '@/models/Article';
 
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9 -]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+}
+
+async function generateUniqueSlug(title: string): Promise<string> {
+  let baseSlug = generateSlug(title);
+  let slug = baseSlug;
+  let counter = 1;
+
+  // Check if slug exists
+  while (await Article.findOne({ slug })) {
+    slug = `${baseSlug}-${counter}`;
+    counter++;
+  }
+
+  return slug;
+}
+
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
@@ -51,14 +74,8 @@ export async function POST(request: NextRequest) {
     
     const body = await request.json();
     
-    // Generate slug from title
-    const slug = body.title
-      .toLowerCase()
-      .replace(/[^a-z0-9 -]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim('-');
-
+    // Generate unique slug from title
+    const slug = await generateUniqueSlug(body.title);
     body.slug = slug;
     
     const article = new Article(body);
@@ -68,7 +85,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating article:', error);
     return NextResponse.json(
-      { error: 'Failed to create article' },
+      { error: 'Failed to create article', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

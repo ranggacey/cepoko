@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { put } from '@vercel/blob';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
+// Check if running on Vercel
+const isVercel = process.env.VERCEL === '1';
+
 export async function POST(request: NextRequest) {
   try {
-    console.log('Upload API called');
+    console.log('Upload API called, isVercel:', isVercel);
     
     const data = await request.formData();
     const file: File | null = data.get('image') as unknown as File;
@@ -38,30 +42,52 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     // Generate unique filename
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 15);
     const extension = path.extname(file.name);
     const filename = `image-${timestamp}-${randomString}${extension}`;
 
-    // Ensure uploads directory exists
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!existsSync(uploadsDir)) {
-      console.log('Creating uploads directory');
-      await mkdir(uploadsDir, { recursive: true });
+    let publicUrl: string;
+
+    if (isVercel && process.env.BLOB_READ_WRITE_TOKEN) {
+      // Use Vercel Blob Storage in production
+      console.log('Using Vercel Blob Storage');
+      
+      try {
+        const blob = await put(filename, file, {
+          access: 'public',
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+        });
+
+        publicUrl = blob.url;
+        console.log('File uploaded to Vercel Blob:', publicUrl);
+      } catch (blobError: any) {
+        console.error('Vercel Blob upload failed:', blobError);
+        throw new Error('Failed to upload to cloud storage: ' + blobError.message);
+      }
+    } else {
+      // Use local filesystem in development
+      console.log('Using local filesystem storage');
+      
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      // Ensure uploads directory exists
+      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+      if (!existsSync(uploadsDir)) {
+        console.log('Creating uploads directory');
+        await mkdir(uploadsDir, { recursive: true });
+      }
+
+      // Save file to uploads directory
+      const uploadPath = path.join(uploadsDir, filename);
+      console.log('Saving file to:', uploadPath);
+      await writeFile(uploadPath, buffer);
+      console.log('File saved successfully to local filesystem');
+
+      publicUrl = `/uploads/${filename}`;
     }
-
-    // Save file to uploads directory
-    const uploadPath = path.join(uploadsDir, filename);
-    console.log('Saving file to:', uploadPath);
-    await writeFile(uploadPath, buffer);
-    console.log('File saved successfully');
-
-    // Return public URL
-    const publicUrl = `/uploads/${filename}`;
 
     return NextResponse.json({
       success: true,
@@ -69,7 +95,8 @@ export async function POST(request: NextRequest) {
       url: publicUrl,
       originalName: file.name,
       size: file.size,
-      type: file.type
+      type: file.type,
+      storage: isVercel && process.env.BLOB_READ_WRITE_TOKEN ? 'vercel-blob' : 'local'
     });
 
   } catch (error: any) {

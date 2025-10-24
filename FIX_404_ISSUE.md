@@ -12,38 +12,41 @@ Tanpa function ini:
 - ✅ Local development: **WORKS** (Next.js generate pages on-the-fly)
 - ❌ Vercel production: **404 ERROR** (pages tidak di-generate saat build)
 
-## ✅ Solusi yang Sudah Diterapkan
+## ✅ Solusi yang Sudah Diterapkan (UPDATED)
+
+### Approach 1: generateStaticParams (TIDAK BERHASIL)
+❌ Gagal karena database connection saat build time di Vercel
+
+### Approach 2: Force Dynamic Rendering (SOLUSI FINAL) ✅
 
 ### 1. File: `src/app/articles/[slug]/page.tsx`
 
 Ditambahkan:
 ```typescript
-// Generate static params for all published articles
-export async function generateStaticParams() {
-  try {
-    await connectDB();
-    const Article = (await import('@/models/Article')).default;
-    
-    const articles = await Article.find({ published: true })
-      .select('slug')
-      .lean();
+// Force dynamic rendering for this page
+// This ensures the page always works even if build-time database connection fails
+export const dynamic = 'force-dynamic';
 
-    return articles.map((article) => ({
-      slug: article.slug,
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
-}
-
-// Enable dynamic params for articles created after build
-export const dynamicParams = true;
+// Optional: Enable revalidation every hour (ISR)
+// export const revalidate = 3600;
 ```
 
 ### 2. File: `src/app/gallery/[slug]/page.tsx`
 
-Ditambahkan function yang sama untuk gallery pages.
+Ditambahkan konfigurasi yang sama untuk gallery pages.
+
+## 🔧 Kenapa Solusi Ini Lebih Baik?
+
+### Static Generation (Approach 1) - Masalah:
+- ❌ Perlu database connection saat BUILD TIME
+- ❌ Jika gagal connect → empty array → 404 error
+- ❌ Tidak reliable untuk app dengan database eksternal
+
+### Dynamic Rendering (Approach 2) - Solusi:
+- ✅ Render halaman saat RUNTIME (request time)
+- ✅ Database connection saat user request, bukan saat build
+- ✅ Selalu berfungsi selama database tersedia
+- ✅ Otomatis update tanpa perlu redeploy
 
 ## 🎯 Apa yang Dilakukan Perbaikan Ini?
 
@@ -87,15 +90,22 @@ Vercel akan otomatis deploy perubahan ini.
 ## 🔄 Cara Kerja Setelah Perbaikan
 
 ### Build Time (saat deploy):
-1. Next.js menjalankan `generateStaticParams()`
-2. Mengambil semua artikel/gallery yang published dari database
-3. Pre-generate halaman statis untuk setiap slug
-4. Deploy ke Vercel
+1. Next.js build framework dan components
+2. TIDAK perlu database connection
+3. Deploy ke Vercel ⚡
 
 ### Runtime (saat user akses):
-1. Jika halaman sudah di-build → Langsung serve (CEPAT ⚡)
-2. Jika halaman belum di-build (artikel baru) → Generate on-demand (karena `dynamicParams = true`)
-3. Cache hasilnya untuk request berikutnya
+1. User request artikel/gallery
+2. Server connect ke database
+3. Fetch data artikel/gallery
+4. Render halaman secara dynamic
+5. Send ke user
+
+### Caching (Optional):
+Jika ingin caching, bisa enable ISR dengan uncomment:
+```typescript
+export const revalidate = 3600; // Cache 1 jam
+```
 
 ## 📝 Notes Penting
 

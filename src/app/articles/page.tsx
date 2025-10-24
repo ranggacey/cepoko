@@ -6,12 +6,14 @@ import Image from 'next/image';
 import { Newspaper, Search, Calendar, User, Eye } from 'lucide-react';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
+import ArticleModal from '@/components/ArticleModal';
 import { IArticle } from '@/models/Article';
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchArticles();
@@ -157,9 +159,12 @@ export default function ArticlesPage() {
 
                   {/* Title */}
                   <h2 className="text-xl font-bold text-black mb-3 line-clamp-2">
-                    <Link href={`/articles/${article._id}`} className="hover:text-green-600 transition-colors">
+                    <button 
+                      onClick={() => setSelectedArticleId(article._id.toString())}
+                      className="hover:text-green-600 transition-colors text-left w-full"
+                    >
                       {article.title}
-                    </Link>
+                    </button>
                   </h2>
 
                   {/* Excerpt */}
@@ -179,12 +184,13 @@ export default function ArticlesPage() {
                         <Eye className="w-4 h-4 mr-1" /> {article.views} views
                       </span>
                     </div>
-                    <Link
-                      href={`/articles/${article._id}`}
-                      className="text-green-600 hover:text-green-700 font-medium"
+                    <button
+                      onClick={() => setSelectedArticleId(article._id.toString())}
+                      data-article-id={article._id}
+                      className="text-green-600 hover:text-green-700 font-medium transition-colors"
                     >
                       Baca selengkapnya →
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </article>
@@ -194,6 +200,14 @@ export default function ArticlesPage() {
       </div>
 
       <Footer />
+
+      {/* Article Modal */}
+      {selectedArticleId && (
+        <ArticleModal
+          articleId={selectedArticleId}
+          onClose={() => setSelectedArticleId(null)}
+        />
+      )}
     </div>
   );
 }

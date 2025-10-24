@@ -7,12 +7,15 @@ import { Camera, Search, Filter, ExternalLink, AlertTriangle } from 'lucide-reac
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import GalleryModal from '@/components/GalleryModal';
+
 export default function GalleryPage() {
   const [galleries, setGalleries] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [selectedGalleryId, setSelectedGalleryId] = useState<string | null>(null);
 
   const categories = [
     { value: 'all', label: 'Semua' },
@@ -193,7 +196,11 @@ export default function GalleryPage() {
               >
                 {/* Image */}
                 <div className="aspect-square relative overflow-hidden">
-                  <Link href={`/gallery/${gallery._id}`}>
+                  <button 
+                    onClick={() => setSelectedGalleryId(gallery._id.toString())}
+                    data-gallery-id={gallery._id}
+                    className="w-full h-full"
+                  >
                     <div className="cursor-pointer">
                       {gallery.imageUrl ? (
                         <Image
@@ -209,7 +216,7 @@ export default function GalleryPage() {
                         </div>
                       )}
                     </div>
-                  </Link>
+                  </button>
                   
                   {/* Category Badge */}
                   <div className="absolute top-2 right-2">
@@ -259,13 +266,13 @@ export default function GalleryPage() {
                   </p>
                   
                   {/* View More Button */}
-                  <Link 
-                    href={`/gallery/${gallery._id}`}
+                  <button 
+                    onClick={() => setSelectedGalleryId(gallery._id.toString())}
                     className="inline-flex items-center text-sm text-green-600 hover:text-green-700 transition-colors"
                   >
                     <span>Lihat Selengkapnya</span>
                     <ExternalLink className="w-3 h-3 ml-1" />
-                  </Link>
+                  </button>
                 </div>
               </div>
             ))}
@@ -274,6 +281,14 @@ export default function GalleryPage() {
       </div>
 
         <Footer />
+
+        {/* Gallery Modal */}
+        {selectedGalleryId && (
+          <GalleryModal
+            galleryId={selectedGalleryId}
+            onClose={() => setSelectedGalleryId(null)}
+          />
+        )}
       </div>
     </ErrorBoundary>
   );

@@ -8,18 +8,24 @@ import connectDB from '@/lib/mongodb';
 
 interface ArticlePageProps {
   params: Promise<{
-    slug: string;
+    id: string;
   }>;
 }
 
-async function getArticle(slug: string): Promise<any | null> {
+async function getArticle(id: string): Promise<any | null> {
   try {
     await connectDB();
     const Article = (await import('@/models/Article')).default;
     
-    const article = await Article.findOne({ slug, published: true })
+    // Query by ID - Much simpler and faster!
+    const article: any = await Article.findById(id)
       .populate('author', 'name email')
       .lean();
+
+    // Only return if published
+    if (!article || !article.published) {
+      return null;
+    }
 
     return article;
   } catch (error) {
@@ -28,18 +34,18 @@ async function getArticle(slug: string): Promise<any | null> {
   }
 }
 
-async function getRelatedArticles(currentSlug: string): Promise<any[]> {
+async function getRelatedArticles(currentId: string, limit: number = 3): Promise<any[]> {
   try {
     await connectDB();
     const Article = (await import('@/models/Article')).default;
     
     const articles = await Article.find({ 
-      slug: { $ne: currentSlug }, 
+      _id: { $ne: currentId }, 
       published: true 
     })
       .populate('author', 'name')
       .sort({ createdAt: -1 })
-      .limit(3)
+      .limit(limit)
       .lean();
 
     return articles;
@@ -49,16 +55,15 @@ async function getRelatedArticles(currentSlug: string): Promise<any[]> {
   }
 }
 
-// Force dynamic rendering for this page
-// This ensures the page always works even if build-time database connection fails
+// Force dynamic rendering - Always works!
 export const dynamic = 'force-dynamic';
 
-// Optional: Enable revalidation every hour (ISR)
+// Optional: Cache for 1 hour (ISR)
 // export const revalidate = 3600;
 
 export async function generateMetadata({ params }: ArticlePageProps) {
-  const { slug } = await params;
-  const article = await getArticle(slug);
+  const { id } = await params;
+  const article = await getArticle(id);
   
   if (!article) {
     return {
@@ -69,18 +74,19 @@ export async function generateMetadata({ params }: ArticlePageProps) {
   return {
     title: `${article.title} - Desa Cepoko`,
     description: article.excerpt || article.content.replace(/<[^>]*>/g, '').substring(0, 160),
-    keywords: article.tags.join(', '),
+    keywords: article.tags?.join(', ') || '',
   };
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-  const { slug } = await params;
-  const article = await getArticle(slug);
-  const relatedArticles = await getRelatedArticles(slug);
+  const { id } = await params;
+  const article = await getArticle(id);
 
   if (!article) {
     notFound();
   }
+
+  const relatedArticles = await getRelatedArticles(id);
 
   const formatDate = (date: string | Date) => {
     return new Date(date).toLocaleDateString('id-ID', {
@@ -90,10 +96,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     });
   };
 
-  // Increment view count (optional)
+  // Increment view count
   try {
     await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/articles/${article._id}/views`, {
       method: 'POST',
+      cache: 'no-store',
     });
   } catch (error) {
     console.error('Error incrementing views:', error);
@@ -222,7 +229,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     {relatedArticles.map((relatedArticle) => (
                       <Link
                         key={relatedArticle._id.toString()}
-                        href={`/articles/${relatedArticle.slug}`}
+                        href={`/articles/${relatedArticle._id}`}
                         className="block group"
                       >
                         <div className="flex space-x-3">
@@ -310,3 +317,4 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     </div>
   );
 }
+

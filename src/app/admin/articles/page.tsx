@@ -271,7 +271,7 @@ export default function AdminArticlesPage() {
                           </Link>
                           
                           <Link
-                            href={`/articles/${article.slug}`}
+                            href={`/articles/${article._id}`}
                             target="_blank"
                             className="bg-gray-100 text-gray-700 hover:bg-gray-200 px-3 py-1 rounded text-xs font-medium transition-colors"
                           >

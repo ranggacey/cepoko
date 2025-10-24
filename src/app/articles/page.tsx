@@ -157,7 +157,7 @@ export default function ArticlesPage() {
 
                   {/* Title */}
                   <h2 className="text-xl font-bold text-black mb-3 line-clamp-2">
-                    <Link href={`/articles/${article.slug}`} className="hover:text-green-600 transition-colors">
+                    <Link href={`/articles/${article._id}`} className="hover:text-green-600 transition-colors">
                       {article.title}
                     </Link>
                   </h2>
@@ -180,7 +180,7 @@ export default function ArticlesPage() {
                       </span>
                     </div>
                     <Link
-                      href={`/articles/${article.slug}`}
+                      href={`/articles/${article._id}`}
                       className="text-green-600 hover:text-green-700 font-medium"
                     >
                       Baca selengkapnya →

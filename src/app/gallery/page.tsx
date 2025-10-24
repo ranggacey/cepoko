@@ -193,7 +193,7 @@ export default function GalleryPage() {
               >
                 {/* Image */}
                 <div className="aspect-square relative overflow-hidden">
-                  <Link href={`/gallery/${gallery.slug || gallery._id?.toString() || index}`}>
+                  <Link href={`/gallery/${gallery._id}`}>
                     <div className="cursor-pointer">
                       {gallery.imageUrl ? (
                         <Image
@@ -260,7 +260,7 @@ export default function GalleryPage() {
                   
                   {/* View More Button */}
                   <Link 
-                    href={`/gallery/${gallery.slug || (gallery as any)._id?.toString()}`}
+                    href={`/gallery/${gallery._id}`}
                     className="inline-flex items-center text-sm text-green-600 hover:text-green-700 transition-colors"
                   >
                     <span>Lihat Selengkapnya</span>

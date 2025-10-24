@@ -65,6 +65,27 @@ async function getRelatedGalleries(currentSlug: string, category: string, limit:
   }
 }
 
+// Generate static params for all published galleries
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    
+    const galleries = await Gallery.find({ published: true })
+      .select('slug')
+      .lean();
+
+    return galleries.map((gallery) => ({
+      slug: gallery.slug || gallery._id.toString(),
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
+}
+
+// Enable dynamic params for galleries created after build
+export const dynamicParams = true;
+
 export async function generateMetadata({ params }: GalleryPageProps) {
   const { slug } = await params;
   const gallery = await getGallery(slug);

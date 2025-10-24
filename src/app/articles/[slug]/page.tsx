@@ -49,6 +49,28 @@ async function getRelatedArticles(currentSlug: string): Promise<any[]> {
   }
 }
 
+// Generate static params for all published articles
+export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const Article = (await import('@/models/Article')).default;
+    
+    const articles = await Article.find({ published: true })
+      .select('slug')
+      .lean();
+
+    return articles.map((article) => ({
+      slug: article.slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
+}
+
+// Enable dynamic params for articles created after build
+export const dynamicParams = true;
+
 export async function generateMetadata({ params }: ArticlePageProps) {
   const { slug } = await params;
   const article = await getArticle(slug);

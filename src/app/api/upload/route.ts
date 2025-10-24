@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { put } from '@vercel/blob';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
-// Check if running on Vercel
-const isVercel = process.env.VERCEL === '1';
+// Check if we should use Cloudinary (default for production)
+const useCloudinary = process.env.USE_CLOUDINARY !== 'false';
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('Upload API called, isVercel:', isVercel);
+    console.log('Upload API called, useCloudinary:', useCloudinary);
     
     const data = await request.formData();
     const file: File | null = data.get('image') as unknown as File;
@@ -33,45 +33,42 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
+    // Validate file size (10MB limit for Cloudinary)
+    if (file.size > 10 * 1024 * 1024) {
       console.error('File too large:', file.size);
       return NextResponse.json({ 
         success: false,
-        error: 'File size must be less than 5MB' 
+        error: 'File size must be less than 10MB' 
       }, { status: 400 });
     }
 
-    // Generate unique filename
-    const timestamp = Date.now();
-    const randomString = Math.random().toString(36).substring(2, 15);
-    const extension = path.extname(file.name);
-    const filename = `image-${timestamp}-${randomString}${extension}`;
-
     let publicUrl: string;
+    let storageType: string;
 
-    if (isVercel && process.env.BLOB_READ_WRITE_TOKEN) {
-      // Use Vercel Blob Storage in production
-      console.log('Using Vercel Blob Storage');
+    if (useCloudinary) {
+      // Use Cloudinary (default for production)
+      console.log('Using Cloudinary storage');
       
       try {
-        const blob = await put(filename, file, {
-          access: 'public',
-          token: process.env.BLOB_READ_WRITE_TOKEN,
-        });
-
-        publicUrl = blob.url;
-        console.log('File uploaded to Vercel Blob:', publicUrl);
-      } catch (blobError: any) {
-        console.error('Vercel Blob upload failed:', blobError);
-        throw new Error('Failed to upload to cloud storage: ' + blobError.message);
+        publicUrl = await uploadToCloudinary(file);
+        storageType = 'cloudinary';
+        console.log('File uploaded to Cloudinary:', publicUrl);
+      } catch (cloudinaryError: any) {
+        console.error('Cloudinary upload failed:', cloudinaryError);
+        throw new Error('Failed to upload to Cloudinary: ' + cloudinaryError.message);
       }
     } else {
-      // Use local filesystem in development
+      // Use local filesystem (only for local development)
       console.log('Using local filesystem storage');
       
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
+
+      // Generate unique filename
+      const timestamp = Date.now();
+      const randomString = Math.random().toString(36).substring(2, 15);
+      const extension = path.extname(file.name);
+      const filename = `image-${timestamp}-${randomString}${extension}`;
 
       // Ensure uploads directory exists
       const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
@@ -87,16 +84,16 @@ export async function POST(request: NextRequest) {
       console.log('File saved successfully to local filesystem');
 
       publicUrl = `/uploads/${filename}`;
+      storageType = 'local';
     }
 
     return NextResponse.json({
       success: true,
-      filename: filename,
       url: publicUrl,
       originalName: file.name,
       size: file.size,
       type: file.type,
-      storage: isVercel && process.env.BLOB_READ_WRITE_TOKEN ? 'vercel-blob' : 'local'
+      storage: storageType
     });
 
   } catch (error: any) {

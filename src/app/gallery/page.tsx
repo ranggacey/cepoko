@@ -197,7 +197,7 @@ export default function GalleryPage() {
                 {/* Image */}
                 <div className="aspect-square relative overflow-hidden">
                   <button 
-                    onClick={() => setSelectedGalleryId(gallery._id.toString())}
+                    onClick={() => setSelectedGalleryId(gallery._id?.toString() || '')}
                     data-gallery-id={gallery._id}
                     className="w-full h-full"
                   >
@@ -267,7 +267,7 @@ export default function GalleryPage() {
                   
                   {/* View More Button */}
                   <button 
-                    onClick={() => setSelectedGalleryId(gallery._id.toString())}
+                    onClick={() => setSelectedGalleryId(gallery._id?.toString() || '')}
                     className="inline-flex items-center text-sm text-green-600 hover:text-green-700 transition-colors"
                   >
                     <span>Lihat Selengkapnya</span>

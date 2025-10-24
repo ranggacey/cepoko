@@ -160,7 +160,7 @@ export default function ArticlesPage() {
                   {/* Title */}
                   <h2 className="text-xl font-bold text-black mb-3 line-clamp-2">
                     <button 
-                      onClick={() => setSelectedArticleId(article._id.toString())}
+                      onClick={() => setSelectedArticleId((article as any)._id.toString())}
                       className="hover:text-green-600 transition-colors text-left w-full"
                     >
                       {article.title}
@@ -185,8 +185,8 @@ export default function ArticlesPage() {
                       </span>
                     </div>
                     <button
-                      onClick={() => setSelectedArticleId(article._id.toString())}
-                      data-article-id={article._id}
+                      onClick={() => setSelectedArticleId((article as any)._id.toString())}
+                      data-article-id={(article as any)._id}
                       className="text-green-600 hover:text-green-700 font-medium transition-colors"
                     >
                       Baca selengkapnya →

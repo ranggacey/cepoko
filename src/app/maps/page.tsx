@@ -65,24 +65,57 @@ export default function MapsPage() {
       <Navbar />
       
       {/* Header */}
-      <div className="bg-white shadow-sm">
+      <div className="bg-white border-b-2 border-green-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-black">Peta Lokasi Desa Cepoko</h1>
-              <p className="text-black mt-2">
-                Temukan lokasi RW, RT, fasilitas, dan tempat penting di Desa Cepoko
-              </p>
+            <div className="flex-1">
+              <div className="flex items-center mb-3">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                  <MapPin className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Peta Lokasi Desa Cepoko</h1>
+                  <p className="text-gray-600 text-sm md:text-base mt-1">
+                    Temukan lokasi RW, RT, fasilitas, dan tempat penting
+                  </p>
+                </div>
+              </div>
+              
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div className="bg-green-50 border border-green-100 rounded-lg p-4 hover:bg-green-100 transition-colors">
+                  <div className="text-2xl font-bold text-green-600">{filteredLocations.length}</div>
+                  <div className="text-gray-600 text-sm">Total Lokasi</div>
+                </div>
+                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 hover:bg-blue-100 transition-colors">
+                  <div className="text-2xl font-bold text-blue-600">
+                    {filteredLocations.filter(l => l.type === 'rw').length}
+                  </div>
+                  <div className="text-gray-600 text-sm">RW</div>
+                </div>
+                <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-4 hover:bg-emerald-100 transition-colors">
+                  <div className="text-2xl font-bold text-emerald-600">
+                    {filteredLocations.filter(l => l.type === 'rt').length}
+                  </div>
+                  <div className="text-gray-600 text-sm">RT</div>
+                </div>
+                <div className="bg-red-50 border border-red-100 rounded-lg p-4 hover:bg-red-100 transition-colors">
+                  <div className="text-2xl font-bold text-red-600">
+                    {filteredLocations.filter(l => l.type === 'fasilitas').length}
+                  </div>
+                  <div className="text-gray-600 text-sm">Fasilitas</div>
+                </div>
+              </div>
             </div>
             
             {/* View Toggle */}
-            <div className="mt-4 md:mt-0">
+            <div className="mt-6 md:mt-0 md:ml-6">
               <div className="flex bg-gray-100 rounded-lg p-1">
                 <button
                   onClick={() => setViewMode('map')}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center ${
+                  className={`px-4 py-2.5 rounded-md text-sm font-medium transition-all flex items-center ${
                     viewMode === 'map'
-                      ? 'bg-white text-gray-900 shadow-sm'
+                      ? 'bg-white text-green-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
@@ -90,9 +123,9 @@ export default function MapsPage() {
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center ${
+                  className={`px-4 py-2.5 rounded-md text-sm font-medium transition-all flex items-center ${
                     viewMode === 'list'
-                      ? 'bg-white text-gray-900 shadow-sm'
+                      ? 'bg-white text-green-600 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >

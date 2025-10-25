@@ -7,12 +7,14 @@ interface ImageSliderProps {
   images: string[];
   autoSlide?: boolean;
   slideInterval?: number; // in milliseconds
+  aspectRatio?: 'video' | 'square' | '4/3' | 'default'; // aspect ratio options
 }
 
 export default function ImageSlider({ 
   images, 
   autoSlide = true, 
-  slideInterval = 3000 
+  slideInterval = 3000,
+  aspectRatio = 'default'
 }: ImageSliderProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -41,9 +43,23 @@ export default function ImageSlider({
     setCurrentIndex(index);
   };
 
+  // Determine aspect ratio class
+  const getAspectClass = () => {
+    switch (aspectRatio) {
+      case 'video':
+        return 'aspect-video';
+      case 'square':
+        return 'aspect-square';
+      case '4/3':
+        return 'aspect-[4/3]';
+      default:
+        return 'h-96';
+    }
+  };
+
   if (images.length === 0) {
     return (
-      <div className="bg-gray-200 rounded-xl h-96 flex items-center justify-center">
+      <div className={`bg-gray-200 rounded-xl ${getAspectClass()} flex items-center justify-center`}>
         <div className="text-center">
           <span className="text-gray-500 text-lg">Tidak ada gambar tersedia</span>
         </div>
@@ -52,7 +68,7 @@ export default function ImageSlider({
   }
 
   return (
-    <div className="relative bg-gray-200 rounded-xl h-96 overflow-hidden group">
+    <div className={`relative bg-gray-200 rounded-xl ${getAspectClass()} overflow-hidden group`}>
       {/* Main Image Container with Slide Animation */}
       <div className="relative w-full h-full overflow-hidden">
         <div 

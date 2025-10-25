@@ -40,12 +40,12 @@ export default async function Home() {
       <div className="min-h-screen bg-gray-50">
         <Navbar />
       
-      <Hero />
+      <Hero images={desaImages} />
 
       {/* Stats Section */}
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="w-8 h-8 text-blue-600" />
@@ -59,13 +59,6 @@ export default async function Home() {
               </div>
               <div className="text-3xl font-bold text-black mb-2">17 RT</div>
               <div className="text-gray-600">Rukun Tetangga</div>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-8 h-8 text-purple-600" />
-              </div>
-              <div className="text-3xl font-bold text-black mb-2">3 Dusun</div>
-              <div className="text-gray-600">Wilayah Dusun</div>
             </div>
           </div>
         </div>
@@ -151,7 +144,7 @@ export default async function Home() {
                 Website ini dibuat untuk memberikan informasi lengkap tentang Desa Cepoko, 
                 mulai dari galeri foto, peta lokasi, hingga artikel terkini tentang perkembangan desa.
               </p>
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 gap-6 max-w-sm">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-green-600 mb-2">3</div>
                   <div className="text-black">RW</div>
@@ -159,10 +152,6 @@ export default async function Home() {
                 <div className="text-center">
                   <div className="text-3xl font-bold text-green-600 mb-2">17</div>
                   <div className="text-black">RT</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-2">3</div>
-                  <div className="text-black">Dusun</div>
                 </div>
               </div>
             </div>

@@ -1,12 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
+import ImageSlider from '@/components/ImageSlider';
 
-export default function Hero() {
+interface HeroProps {
+  images?: string[];
+}
+
+export default function Hero({ images = ['/images/1.jpg'] }: HeroProps) {
   return (
     <section className="relative overflow-hidden">
       {/* Background gradient + subtle shapes */}
@@ -64,14 +68,12 @@ export default function Hero() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
-              <Image
-                src="/images/1.jpg"
-                alt="Panorama Desa Cepoko"
-                fill
-                priority
-                sizes="(min-width: 1024px) 560px, 100vw"
-                className="object-cover"
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+              <ImageSlider 
+                images={images}
+                autoSlide={true}
+                slideInterval={4000}
+                aspectRatio="4/3"
               />
             </div>
           </motion.div>

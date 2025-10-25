@@ -69,13 +69,10 @@ export default function ContactPage() {
                         Hubungi kantor desa untuk pertanyaan langsung dan informasi layanan.
                       </p>
                       <div className="flex items-center space-x-4">
-                        <a 
-                          href="tel:0241234567" 
-                          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                        >
+                        <div className="inline-flex items-center bg-gray-300 text-gray-600 px-4 py-2 rounded-lg font-medium cursor-not-allowed">
                           <Phone className="w-4 h-4 mr-2" />
-                          <span>024-1234567</span>
-                        </a>
+                          <span>-</span>
+                        </div>
                         <span className="text-sm text-gray-500">
                           Jam kerja: Senin-Jumat 08:00-16:00
                         </span>
@@ -95,13 +92,10 @@ export default function ContactPage() {
                       <p className="text-gray-600 mb-4">
                         Kirim email untuk pertanyaan formal, dokumen, dan surat menyurat.
                       </p>
-                      <a 
-                        href="mailto:info@desacepoko.id" 
-                        className="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
-                      >
+                      <div className="inline-flex items-center bg-gray-300 text-gray-600 px-4 py-2 rounded-lg font-medium cursor-not-allowed">
                         <Mail className="w-4 h-4 mr-2" />
-                        <span>info@desacepoko.id</span>
-                      </a>
+                        <span>-</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -136,7 +130,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Telepon</p>
-                    <p className="text-gray-600 text-sm">024-1234567</p>
+                    <p className="text-gray-600 text-sm">-</p>
                   </div>
                 </div>
 
@@ -146,7 +140,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">Email</p>
-                    <p className="text-gray-600 text-sm">info@desacepoko.id</p>
+                    <p className="text-gray-600 text-sm">-</p>
                   </div>
                 </div>
 

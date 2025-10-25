@@ -31,6 +31,12 @@ export default function GalleryModal({ galleryId, onClose }: GalleryModalProps) 
       const response = await fetch(`/api/galleries/${galleryId}`);
       if (response.ok) {
         const data = await response.json();
+        
+        // Convert imageUrl to images array for compatibility
+        if (data.imageUrl && !data.images) {
+          data.images = [data.imageUrl];
+        }
+        
         setGallery(data);
         
         // Fetch related galleries
@@ -48,7 +54,16 @@ export default function GalleryModal({ galleryId, onClose }: GalleryModalProps) 
       const response = await fetch('/api/galleries?limit=4');
       if (response.ok) {
         const data = await response.json();
-        setRelatedGalleries(data.filter((g: any) => g._id !== galleryId).slice(0, 4));
+        const filtered = data.filter((g: any) => g._id !== galleryId).slice(0, 4);
+        
+        // Convert imageUrl to images array for each gallery
+        filtered.forEach((g: any) => {
+          if (g.imageUrl && !g.images) {
+            g.images = [g.imageUrl];
+          }
+        });
+        
+        setRelatedGalleries(filtered);
       }
     } catch (error) {
       console.error('Error fetching related galleries:', error);
@@ -216,7 +231,7 @@ export default function GalleryModal({ galleryId, onClose }: GalleryModalProps) 
             </div>
 
             {/* Main Image Viewer */}
-            {gallery.images && gallery.images.length > 0 && (
+            {gallery.images && gallery.images.length > 0 ? (
               <div className="mb-8">
                 <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-gray-100 group">
                   <Image
@@ -277,6 +292,11 @@ export default function GalleryModal({ galleryId, onClose }: GalleryModalProps) 
                     ))}
                   </div>
                 )}
+              </div>
+            ) : (
+              <div className="mb-8 text-center py-12 bg-gray-50 rounded-xl">
+                <div className="text-6xl mb-4">📷</div>
+                <p className="text-gray-500">Tidak ada foto yang tersedia</p>
               </div>
             )}
 
